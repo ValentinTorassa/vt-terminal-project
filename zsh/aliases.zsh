@@ -34,7 +34,7 @@ alias gpl="git pull"
 alias gsw="git switch"
 alias lg="lazygit"
 alias ghb="gh browse"
-alias gdm="git diff main...HEAD"
+alias gdm="git diff main...HEAD | delta"
 
 # ========== Docker ==========
 alias dkps="docker ps --format 'table {{.Names}}\t{{.Status}}\t{{.Ports}}'"

@@ -9,7 +9,7 @@
   navigate = true
   side-by-side = true
   line-numbers = true
-  syntax-theme = Catppuccin-mocha
+  syntax-theme = TwoDark
   hyperlinks = true
   file-style = bold yellow ul
   file-decoration-style = yellow ol

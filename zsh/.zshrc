@@ -31,6 +31,9 @@ export PATH="$HOME/.local/bin:$HOME/go/bin:$PATH"
 export EDITOR="zed --wait"
 export VISUAL="zed --wait"
 
+# ---------- Pager ----------
+export GIT_PAGER="delta"
+
 # ---------- Modular config ----------
 # Resolve symlink to find the real directory where the zsh configs live
 DOTFILES_ZSH="${${(%):-%x}:A:h}"
