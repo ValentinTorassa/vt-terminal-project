@@ -50,10 +50,4 @@ if [[ -f "$DOTFILES_DIR/ghostty/config" ]]; then
   fi
 fi
 
-# Export DOTFILES_DIR so cheatsheet and functions find it
-echo "  -> Setting DOTFILES_DIR=$DOTFILES_DIR"
-if ! grep -q "DOTFILES_DIR" "$DOTFILES_DIR/zsh/.zshrc"; then
-  echo "export DOTFILES_DIR=\"$DOTFILES_DIR\"" >> "$DOTFILES_DIR/zsh/.zshrc"
-fi
-
 echo "[*] Symlinks created!"

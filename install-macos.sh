@@ -16,7 +16,7 @@ if ! command -v brew &>/dev/null; then
 fi
 
 echo "[*] Updating Homebrew..."
-brew update
+brew update || echo "  [!] brew update had warnings, continuing..."
 
 # ---------- Oh My Zsh ----------
 if [[ ! -d "$HOME/.oh-my-zsh" ]]; then

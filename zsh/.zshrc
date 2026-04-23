@@ -37,6 +37,7 @@ export GIT_PAGER="delta"
 # ---------- Modular config ----------
 # Resolve symlink to find the real directory where the zsh configs live
 DOTFILES_ZSH="${${(%):-%x}:A:h}"
+export DOTFILES_DIR="${DOTFILES_ZSH:h}"
 [[ -f "$DOTFILES_ZSH/aliases.zsh" ]]      && source "$DOTFILES_ZSH/aliases.zsh"
 [[ -f "$DOTFILES_ZSH/functions.zsh" ]]     && source "$DOTFILES_ZSH/functions.zsh"
 [[ -f "$DOTFILES_ZSH/ai.zsh" ]]           && source "$DOTFILES_ZSH/ai.zsh"
@@ -53,7 +54,5 @@ command -v fzf &>/dev/null && {
 
 # ---------- Powerlevel10k ----------
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-export DOTFILES_DIR="/home/valen/Documents/GitHub/terminal-project"
-
 # ---------- Local overrides (not tracked by git) ----------
 [[ -f ~/.zshrc.local ]] && source ~/.zshrc.local
