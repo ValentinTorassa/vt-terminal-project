@@ -5,11 +5,11 @@ alias ....="cd ../../.."
 
 # ========== Modern replacements ==========
 if command -v eza &>/dev/null; then
-  alias ls="eza --icons"
-  alias ll="eza -la --git --icons"
-  alias la="eza -a --icons"
-  alias lt="eza --tree --level=2 --icons"
-  alias lta="eza --tree --level=2 --icons -a"
+  alias ls="eza --icons=always"
+  alias ll="eza -la --git --icons=always"
+  alias la="eza -a --icons=always"
+  alias lt="eza --tree --level=2 --icons=always"
+  alias lta="eza --tree --level=2 --icons=always -a"
 fi
 
 if command -v bat &>/dev/null; then
