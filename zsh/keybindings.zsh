@@ -21,10 +21,10 @@ _lazygit_widget() {
 zle -N _lazygit_widget
 bindkey '^G' _lazygit_widget
 
-# Ctrl+X Ctrl+D: launch lazydocker
+# Alt+D: launch lazydocker
 _lazydocker_widget() {
   lazydocker
   zle redisplay
 }
 zle -N _lazydocker_widget
-bindkey '^X^D' _lazydocker_widget
+bindkey '^[d' _lazydocker_widget

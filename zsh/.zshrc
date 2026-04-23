@@ -51,3 +51,6 @@ command -v fzf &>/dev/null && {
 # ---------- Powerlevel10k ----------
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 export DOTFILES_DIR="/home/valen/Documents/GitHub/terminal-project"
+
+# ---------- Local overrides (not tracked by git) ----------
+[[ -f ~/.zshrc.local ]] && source ~/.zshrc.local

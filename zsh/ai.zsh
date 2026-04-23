@@ -1,11 +1,11 @@
 # ========== AI Shell Helper ==========
 # Uses the Anthropic API to suggest commands.
-# Set ANTHROPIC_API_KEY in your environment to enable.
+# Set VT_ANTHROPIC_KEY in your environment to enable.
 
 ai() {
-  if [[ -z "$ANTHROPIC_API_KEY" ]]; then
-    echo "Set ANTHROPIC_API_KEY to use the AI assistant"
-    echo "export ANTHROPIC_API_KEY='your-key-here'"
+  if [[ -z "$VT_ANTHROPIC_KEY" ]]; then
+    echo "Set VT_ANTHROPIC_KEY to use the AI assistant"
+    echo "export VT_ANTHROPIC_KEY='your-key-here'"
     return 1
   fi
 
@@ -25,7 +25,7 @@ ai() {
 
   local response
   response=$(curl -s https://api.anthropic.com/v1/messages \
-    -H "x-api-key: $ANTHROPIC_API_KEY" \
+    -H "x-api-key: $VT_ANTHROPIC_KEY" \
     -H "anthropic-version: 2023-06-01" \
     -H "content-type: application/json" \
     -d "$(jq -n \
@@ -43,25 +43,56 @@ ai() {
     )")
 
   local text
-  text=$(echo "$response" | jq -r '.content[0].text // .error.message // "Error: unexpected response"')
+  text=$(printf '%s' "$response" | jq -r '.content[0].text // .error.message // "Error: unexpected response"')
   echo "$text"
 }
 
-# Pipe output to AI for explanation
-# Usage: cat error.log | aiexplain "what went wrong"
+# Capture last command output automatically
+VT_LAST_OUTPUT="/tmp/vt_last_output_${$}"
+
+_vt_preexec() {
+  [[ "$1" =~ ^(ai|aiexplain|aicommit|claude) ]] && return
+  : > "$VT_LAST_OUTPUT"
+  exec {_VT_OUT_FD}>&1
+  exec 1> >(tee "$VT_LAST_OUTPUT" >&$_VT_OUT_FD 2>/dev/null)
+}
+
+_vt_precmd() {
+  [[ -v _VT_OUT_FD ]] || return
+  exec 1>&$_VT_OUT_FD
+  unset _VT_OUT_FD
+}
+
+autoload -Uz add-zsh-hook
+add-zsh-hook preexec _vt_preexec
+add-zsh-hook precmd _vt_precmd
+
+# Explain last command output or piped input
+# Usage: aiexplain [question]
+#        cat error.log | aiexplain "what went wrong"
 aiexplain() {
-  if [[ -z "$ANTHROPIC_API_KEY" ]]; then
-    echo "Set ANTHROPIC_API_KEY to use the AI assistant"
+  if [[ -z "$VT_ANTHROPIC_KEY" ]]; then
+    echo "Set VT_ANTHROPIC_KEY to use the AI assistant"
     return 1
   fi
 
   local question="${1:-explain this output}"
   local input
-  input=$(cat)
+
+  if [[ -t 0 ]]; then
+    if [[ -s "$VT_LAST_OUTPUT" ]]; then
+      input=$(cat "$VT_LAST_OUTPUT")
+    else
+      echo "No output captured. Run a command first or pipe output: cmd | aiexplain"
+      return 1
+    fi
+  else
+    input=$(cat)
+  fi
 
   local response
   response=$(curl -s https://api.anthropic.com/v1/messages \
-    -H "x-api-key: $ANTHROPIC_API_KEY" \
+    -H "x-api-key: $VT_ANTHROPIC_KEY" \
     -H "anthropic-version: 2023-06-01" \
     -H "content-type: application/json" \
     -d "$(jq -n \
@@ -77,13 +108,13 @@ aiexplain() {
       }'
     )")
 
-  echo "$response" | jq -r '.content[0].text // .error.message // "Error: unexpected response"'
+  printf '%s' "$response" | jq -r '.content[0].text // .error.message // "Error: unexpected response"'
 }
 
 # AI-powered git commit message generator
 aicommit() {
-  if [[ -z "$ANTHROPIC_API_KEY" ]]; then
-    echo "Set ANTHROPIC_API_KEY to use the AI assistant"
+  if [[ -z "$VT_ANTHROPIC_KEY" ]]; then
+    echo "Set VT_ANTHROPIC_KEY to use the AI assistant"
     return 1
   fi
 
@@ -96,7 +127,7 @@ aicommit() {
 
   local response
   response=$(curl -s https://api.anthropic.com/v1/messages \
-    -H "x-api-key: $ANTHROPIC_API_KEY" \
+    -H "x-api-key: $VT_ANTHROPIC_KEY" \
     -H "anthropic-version: 2023-06-01" \
     -H "content-type: application/json" \
     -d "$(jq -n \
@@ -112,7 +143,7 @@ aicommit() {
     )")
 
   local msg
-  msg=$(echo "$response" | jq -r '.content[0].text // empty')
+  msg=$(printf '%s' "$response" | jq -r '.content[0].text // empty')
   if [[ -z "$msg" ]]; then
     echo "Failed to generate commit message"
     return 1
@@ -134,10 +165,10 @@ aicommit() {
   esac
 }
 
-# AI command suggestion with Ctrl+A
+# AI command suggestion with Alt+A
 _ai_suggest_widget() {
   local buffer="$BUFFER"
-  if [[ -z "$buffer" || -z "$ANTHROPIC_API_KEY" ]]; then
+  if [[ -z "$buffer" || -z "$VT_ANTHROPIC_KEY" ]]; then
     return
   fi
 
@@ -145,7 +176,7 @@ _ai_suggest_widget() {
 
   local response
   response=$(curl -s https://api.anthropic.com/v1/messages \
-    -H "x-api-key: $ANTHROPIC_API_KEY" \
+    -H "x-api-key: $VT_ANTHROPIC_KEY" \
     -H "anthropic-version: 2023-06-01" \
     -H "content-type: application/json" \
     -d "$(jq -n \
@@ -161,7 +192,7 @@ _ai_suggest_widget() {
     )")
 
   local cmd
-  cmd=$(echo "$response" | jq -r '.content[0].text // empty')
+  cmd=$(printf '%s' "$response" | jq -r '.content[0].text // empty')
   if [[ -n "$cmd" ]]; then
     BUFFER="$cmd"
     CURSOR=${#BUFFER}
@@ -173,4 +204,4 @@ _ai_suggest_widget() {
 }
 
 zle -N _ai_suggest_widget
-bindkey '^X^A' _ai_suggest_widget
+bindkey '^[a' _ai_suggest_widget

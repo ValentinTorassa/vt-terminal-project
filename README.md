@@ -25,8 +25,8 @@ cd ~/.dotfiles
 |----------|--------|
 | `Ctrl+F` | Fuzzy find file and open in editor |
 | `Ctrl+G` | Launch lazygit |
-| `Ctrl+X Ctrl+D` | Launch lazydocker |
-| `Ctrl+X Ctrl+A` | AI auto-complete current command |
+| `Alt+D` | Launch lazydocker |
+| `Alt+A` | AI auto-complete current command |
 | `Ctrl+R` | Fuzzy search command history |
 | `Ctrl+T` | Fuzzy find file |
 | `Ctrl+Shift+O` | Ghostty: split horizontal |
@@ -50,11 +50,11 @@ cd ~/.dotfiles
 
 ## AI features
 
-Set `ANTHROPIC_API_KEY` to enable:
+Set `VT_ANTHROPIC_KEY` to enable:
 
 | Command | Action |
 |---------|--------|
 | `ai "question"` | Get a terminal command suggestion |
-| `cmd \| aiexplain "why"` | Explain piped output |
+| `aiexplain [question]` | Explain last output (or pipe: `cmd \| aiexplain "why"`) |
 | `aicommit` | Generate commit message from staged changes |
-| `Ctrl+X Ctrl+A` | AI auto-complete current command |
+| `Alt+A` | AI auto-complete current command |

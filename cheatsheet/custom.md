@@ -4,15 +4,15 @@
 |----------|--------|
 | `Ctrl+F` | Fuzzy find file and open in editor |
 | `Ctrl+G` | Launch lazygit |
-| `Ctrl+X Ctrl+D` | Launch lazydocker |
-| `Ctrl+X Ctrl+A` | AI command suggestion (complete/fix current input) |
+| `Alt+D` | Launch lazydocker |
+| `Alt+A` | AI command suggestion (complete/fix current input) |
 
 ## AI Commands
 
 | Command | Action |
 |---------|--------|
 | `ai <question>` | Ask AI for a terminal command |
-| `aiexplain <question>` | Pipe output to AI: `cmd \| aiexplain "why"` |
+| `aiexplain [question]` | Explain last output (or pipe: `cmd \| aiexplain "why"`) |
 | `aicommit` | Generate AI commit message from staged changes |
 
 ## Useful Functions
