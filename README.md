@@ -8,8 +8,8 @@ Personal dotfiles and terminal setup for macOS and Linux. One script to bootstra
 - **Ghostty** terminal emulator config (catppuccin-mocha theme)
 - **Modern CLI tools**: eza, bat, fzf, ripgrep, zoxide, delta, dust, thefuck, tldr
 - **TUI tools**: lazygit, lazydocker
-- **AI shell assistant**: command suggestions, output explanation, commit message generation (requires Anthropic API key)
-- **Fuzzy cheatsheets**: searchable keyboard shortcut reference for terminal, git, docker, ghostty
+- **AI shell assistant**: command suggestions, output explanation, commit message generation
+- **Fuzzy cheatsheets**: searchable keyboard shortcut reference
 
 ## Quick start
 
@@ -19,32 +19,42 @@ cd ~/.dotfiles
 ./install.sh
 ```
 
-## Structure
+## Keybindings
 
-```
-├── install.sh              # Entry point (detects OS)
-├── install-linux.sh        # apt/dnf/pacman installer
-├── install-macos.sh        # Homebrew installer
-├── zsh/                    # Zsh config (modular)
-│   ├── .zshrc
-│   ├── .p10k.zsh
-│   ├── aliases.zsh
-│   ├── functions.zsh
-│   ├── ai.zsh
-│   └── keybindings.zsh
-├── ghostty/config          # Ghostty terminal config
-├── git/.gitconfig          # Git aliases and delta integration
-├── cheatsheet/             # Fuzzy-searchable shortcut cheatsheets
-└── scripts/
-    ├── symlink.sh          # Links configs to $HOME
-    └── uninstall.sh        # Reverts everything
-```
+| Shortcut | Action |
+|----------|--------|
+| `Ctrl+F` | Fuzzy find file and open in editor |
+| `Ctrl+G` | Launch lazygit |
+| `Ctrl+X Ctrl+D` | Launch lazydocker |
+| `Ctrl+X Ctrl+A` | AI auto-complete current command |
+| `Ctrl+R` | Fuzzy search command history |
+| `Ctrl+T` | Fuzzy find file |
+| `Ctrl+Shift+O` | Ghostty: split horizontal |
+| `Ctrl+Shift+E` | Ghostty: split vertical |
+
+## Useful commands
+
+| Command | Action |
+|---------|--------|
+| `lg` | lazygit |
+| `dkl` | lazydocker |
+| `dkcu` / `dkcd` | docker compose up / down |
+| `dksh` | shell into container (fuzzy select) |
+| `fkill` | fuzzy kill process |
+| `mkcd` | create directory and cd into it |
+| `serve` | quick HTTP server |
+| `cheat` | browse shortcut cheatsheets |
+| `z <dir>` | smart cd (zoxide) |
+| `ll` | list files with icons and git status |
+| `git diff` | see changes (side-by-side with delta) |
 
 ## AI features
 
 Set `ANTHROPIC_API_KEY` to enable:
 
-- `ai "question"` — get a terminal command suggestion
-- `cmd | aiexplain "question"` — explain piped output
-- `aicommit` — generate commit message from staged changes
-- `Ctrl+X Ctrl+A` — AI auto-complete current command
+| Command | Action |
+|---------|--------|
+| `ai "question"` | Get a terminal command suggestion |
+| `cmd \| aiexplain "why"` | Explain piped output |
+| `aicommit` | Generate commit message from staged changes |
+| `Ctrl+X Ctrl+A` | AI auto-complete current command |
