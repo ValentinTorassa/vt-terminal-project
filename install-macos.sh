@@ -15,6 +15,12 @@ if ! command -v brew &>/dev/null; then
   fi
 fi
 
+if ! command -v brew &>/dev/null; then
+  echo "[!] Homebrew is not installed and automatic installation failed."
+  echo "    Install it manually: https://brew.sh"
+  exit 1
+fi
+
 echo "[*] Updating Homebrew..."
 brew update || echo "  [!] brew update had warnings, continuing..."
 
@@ -24,8 +30,8 @@ if [[ ! -d "$HOME/.oh-my-zsh" ]]; then
   sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
 fi
 
-# ---------- CLI tools via Homebrew ----------
-BREW_PACKAGES=(
+# ---------- CLI tools (formulas) ----------
+BREW_FORMULAS=(
   # Core
   git
   curl
@@ -42,9 +48,6 @@ BREW_PACKAGES=(
   thefuck
   tldr
 
-  # Editor
-  zed
-
   # Git/Docker TUIs
   lazygit
   lazydocker
@@ -57,8 +60,8 @@ BREW_PACKAGES=(
 )
 
 echo "[*] Installing CLI tools..."
-for pkg in "${BREW_PACKAGES[@]}"; do
-  if ! brew list "$pkg" &>/dev/null; then
+for pkg in "${BREW_FORMULAS[@]}"; do
+  if ! brew list --formula "$pkg" &>/dev/null; then
     echo "  -> $pkg"
     brew install "$pkg" || echo "  [!] Failed to install $pkg, continuing..."
   else
@@ -66,15 +69,22 @@ for pkg in "${BREW_PACKAGES[@]}"; do
   fi
 done
 
-# ---------- Ghostty ----------
-if ! brew list --cask ghostty &>/dev/null; then
-  echo "[*] Installing Ghostty..."
-  brew install --cask ghostty || echo "  [!] Failed to install Ghostty, install manually from https://ghostty.org"
-fi
+# ---------- GUI apps (casks) ----------
+BREW_CASKS=(
+  zed
+  ghostty
+  font-jetbrains-mono-nerd-font
+)
 
-# ---------- Nerd Font ----------
-echo "[*] Installing JetBrainsMono Nerd Font..."
-brew install --cask font-jetbrains-mono-nerd-font 2>/dev/null || echo "  -> Already installed or failed"
+echo "[*] Installing GUI apps..."
+for cask in "${BREW_CASKS[@]}"; do
+  if ! brew list --cask "$cask" &>/dev/null; then
+    echo "  -> $cask"
+    brew install --cask "$cask" || echo "  [!] Failed to install $cask, continuing..."
+  else
+    echo "  -> $cask (already installed)"
+  fi
+done
 
 # ---------- fzf key bindings ----------
 if [[ -f "$(brew --prefix)/opt/fzf/install" ]]; then
