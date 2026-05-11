@@ -1,5 +1,15 @@
 # VT Terminal Project
 
+```
+ ██╗   ██╗████████╗   ████████╗███████╗██████╗ ███╗   ███╗
+ ██║   ██║╚══██╔══╝   ╚══██╔══╝██╔════╝██╔══██╗████╗ ████║
+ ██║   ██║   ██║         ██║   █████╗  ██████╔╝██╔████╔██║
+ ╚██╗ ██╔╝   ██║         ██║   ██╔══╝  ██╔══██╗██║╚██╔╝██║
+  ╚████╔╝    ██║         ██║   ███████╗██║  ██║██║ ╚═╝ ██║
+   ╚═══╝     ╚═╝         ╚═╝   ╚══════╝╚═╝  ╚═╝╚═╝     ╚═╝
+     Personal dotfiles & terminal setup · companion to VT IDE
+```
+
 Personal dotfiles and terminal setup for macOS and Linux. One script to bootstrap a new machine with a fully configured terminal environment.
 
 Companion to [VT-IDE-Project](https://github.com/ValentinTorassa/VT-IDE-Project).
@@ -49,6 +59,7 @@ cd ~/.dotfiles
 | `z <dir>` | smart cd (zoxide) |
 | `ll` | list files with icons and git status |
 | `git diff` | see changes (side-by-side with delta) |
+| `vt-term` | print the VT Terminal banner |
 
 ## AI features
 

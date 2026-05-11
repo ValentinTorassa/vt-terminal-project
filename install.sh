@@ -3,10 +3,7 @@ set -euo pipefail
 
 DOTFILES_DIR="$(cd "$(dirname "$0")" && pwd)"
 
-echo "=================================="
-echo "  Terminal Project - Setup"
-echo "=================================="
-echo ""
+bash "$DOTFILES_DIR/scripts/vt-term"
 
 OS="$(uname -s)"
 
@@ -62,6 +59,12 @@ else
 fi
 
 echo ""
+echo "[*] Installing vt-term command..."
+mkdir -p "$HOME/.local/bin"
+ln -sf "$DOTFILES_DIR/scripts/vt-term" "$HOME/.local/bin/vt-term"
+echo "  -> ~/.local/bin/vt-term"
+
+echo ""
 echo "=================================="
 echo "  Setup complete!"
 echo "=================================="
@@ -71,4 +74,5 @@ echo "  1. Restart your terminal or run: source ~/.zshrc"
 echo "  2. Set your Anthropic API key for AI features (ai, aiexplain, aicommit):"
 echo "     echo \"export VT_ANTHROPIC_KEY='your-key'\" >> ~/.zshrc.local"
 echo "  3. Run 'cheat' to see the keyboard shortcuts cheatsheet"
+echo "  4. Run 'vt-term' to print the VT Terminal banner"
 echo ""
