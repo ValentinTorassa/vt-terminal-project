@@ -56,3 +56,6 @@ command -v fzf &>/dev/null && {
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 # ---------- Local overrides (not tracked by git) ----------
 [[ -f ~/.zshrc.local ]] && source ~/.zshrc.local
+
+# opencode
+export PATH=/Users/valen/.opencode/bin:$PATH
